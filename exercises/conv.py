@@ -24,11 +24,24 @@ def conv2d(x, kernel):
     """
     # 请在此处编写代码
     # 提示：
-    # 1. 获取输入 x 和卷积核 kernel 的形状。
-    # 2. 计算输出的高度和宽度。
-    # 3. 初始化输出数组。
-    # 4. 使用嵌套循环遍历输出数组的每个位置 (i, j)。
-    # 5. 提取输入 x 中与当前卷积核对应的区域 (patch)。
-    # 6. 计算 patch 和 kernel 的元素乘积之和 (np.sum(patch * kernel))。
-    # 7. 将结果存入输出数组 out[i, j]。
-    pass 
+    # 1. 获取输入和卷积核的尺寸
+    H, W = x.shape            # 输入图像大小
+    kH, kW = kernel.shape     # 卷积核大小
+
+    # 2. 计算输出大小（无填充 valid 模式）
+    out_H = H - kH + 1
+    out_W = W - kW + 1
+
+    # 3. 初始化输出数组
+    out = np.zeros((out_H, out_W))
+
+    # 4. 遍历每个输出位置 (i, j)
+    for i in range(out_H):
+        for j in range(out_W):
+            # 5. 提取输入中当前窗口 patch
+            patch = x[i:i+kH, j:j+kW]
+
+            # 6. 卷积操作：逐元素相乘再求和
+            out[i, j] = np.sum(patch * kernel)
+
+    return out

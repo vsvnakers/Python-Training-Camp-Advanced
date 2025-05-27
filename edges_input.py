@@ -1,12 +1,6 @@
-# exercises/image_processing.py
-"""
-练习：图像基本处理
+import cv2
+import numpy as np
 
-描述：
-使用 OpenCV 实现基本的图像读取、灰度转换、高斯滤波和边缘检测。
-
-请补全下面的函数 `image_processing_pipeline`。
-"""
 import cv2
 import numpy as np
 
@@ -40,7 +34,7 @@ def image_processing_pipeline(image_path):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         # 4️⃣ 高斯模糊（去除噪声，提高边缘检测稳定性）
-        blurred = cv2.GaussianBlur(gray, (5, 5), sigmaX=1)
+        blurred = cv2.GaussianBlur(gray, (1, 1), sigmaX=0.01)
 
         # 5️⃣ Canny边缘检测（自动检测图像边缘）
         edges = cv2.Canny(blurred, threshold1=100, threshold2=200)
@@ -50,5 +44,16 @@ def image_processing_pipeline(image_path):
     except Exception as e:
         print(f"处理失败: {e}")
         return None
-    
-    pass 
+
+if __name__ == "__main__":
+    # 示例：替换为你自己的图片路径
+    image_path = "picture.jpg"
+    output_path = "edges_output.png"
+
+    edges = image_processing_pipeline(image_path)
+
+    if edges is not None:
+        cv2.imwrite(output_path, edges)
+        print(f"边缘图像已保存为: {output_path}")
+    else:
+        print("图像处理失败。")
